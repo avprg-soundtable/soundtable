@@ -24,7 +24,15 @@ SOURCES += main.cpp\
     abstractprojectwidget.cpp \
     abstractprojectfactory.cpp \
     a/projectawidget.cpp \
-    b/projectbwidget.cpp
+    b/projectbwidget.cpp \
+    a/ip/posix/NetworkingUtils.cpp \
+    a/ip/posix/UdpSocket.cpp \
+    a/ip/IpEndpointName.cpp \
+    a/osc/OscOutboundPacketStream.cpp \
+    a/osc/OscPrintReceivedElements.cpp \
+    a/osc/OscReceivedElements.cpp \
+    a/osc/OscTypes.cpp \
+    a/puredataosccontroller.cpp
 
 HEADERS  += mainwindow.h \
     a/projectafactory.h \
@@ -37,7 +45,21 @@ HEADERS  += mainwindow.h \
     abstractprojectwidget.h \
     abstractprojectfactory.h \
     a/projectawidget.h \
-    b/projectbwidget.h
+    b/projectbwidget.h \
+    a/ip/IpEndpointName.h \
+    a/ip/NetworkingUtils.h \
+    a/ip/PacketListener.h \
+    a/ip/TimerListener.h \
+    a/ip/UdpSocket.h \
+    a/osc/MessageMappingOscPacketListener.h \
+    a/osc/OscException.h \
+    a/osc/OscHostEndianness.h \
+    a/osc/OscOutboundPacketStream.h \
+    a/osc/OscPacketListener.h \
+    a/osc/OscPrintReceivedElements.h \
+    a/osc/OscReceivedElements.h \
+    a/osc/OscTypes.h \
+    a/puredataosccontroller.h
 
 FORMS    += mainwindow.ui \
     a/projectawidget.ui \

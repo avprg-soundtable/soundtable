@@ -13,7 +13,7 @@ public:
     ControlProcessor();
     void startProcessing(const VideoFormat& format){}
     cv::Mat process(const cv::Mat&source);
-    
+    int sendtestvalue;
     
 private:
     FilterProcessor* filterProcessor;
@@ -23,6 +23,9 @@ private:
     int frameCount;
     cv::Mat unprocessedFrame;
     cv::Mat processedFrame;
+    QVector< QVector<float> > rawData;
+
+
 
 };
 
