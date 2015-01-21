@@ -26,6 +26,7 @@ public:
 
 private slots:
     void on_pushButton_clicked();
+    void updateParameters();
 
 private:
     Ui::ProjectAWidget *ui;

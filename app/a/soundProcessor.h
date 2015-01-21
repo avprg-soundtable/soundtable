@@ -12,6 +12,9 @@ public:
     void process(bool sequenzer, int masterVol, QVector< QVector<float> > rawData);
 private:
     PureDataOSCController* pureDataOSCController;
+    QVector< QVector<float> > audioData;
+    QVector< float > controlData;
+    float calcFrequency(QVector<float> rawObject);
 private:
 
    

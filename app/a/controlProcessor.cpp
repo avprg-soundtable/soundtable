@@ -20,7 +20,8 @@ Mat ControlProcessor::process(const Mat &input){
     processedFrame=filterProcessor->process(unprocessedFrame);
     if (frameCount%3==0){
         rawData = detectProcessor->analyse(processedFrame);
-        soundProcessor->process(false,100,rawData);
+        qDebug() << "ArrayControl: " << rawData.size();
+        soundProcessor->process(0,100,rawData);
     }
 
 

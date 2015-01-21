@@ -13,7 +13,7 @@
   <property name="minimumSize">
    <size>
     <width>690</width>
-    <height>430</height>
+    <height>545</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -101,7 +101,7 @@
    <property name="title">
     <string>Audio Setting</string>
    </property>
-   <widget class="QSlider" name="verticalSlider">
+   <widget class="QSlider" name="masterVolSlider">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -120,7 +120,7 @@
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton">
+   <widget class="QRadioButton" name="addCB">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -130,10 +130,10 @@
      </rect>
     </property>
     <property name="text">
-     <string>RadioButton</string>
+     <string>Modus 1</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton_2">
+   <widget class="QRadioButton" name="sequenzerCB">
     <property name="geometry">
      <rect>
       <x>200</x>
@@ -143,10 +143,10 @@
      </rect>
     </property>
     <property name="text">
-     <string>RadioButton</string>
+     <string>Sequenzer</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox">
+   <widget class="QCheckBox" name="muteCB">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -159,7 +159,7 @@
      <string>Mute</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="spinBox">
+   <widget class="QSpinBox" name="beatSB">
     <property name="geometry">
      <rect>
       <x>96</x>
@@ -303,5 +303,25 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>masterVolSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>test()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>31</x>
+     <y>352</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>339</x>
+     <y>289</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>test()</slot>
+ </slots>
 </ui>
