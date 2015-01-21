@@ -18,8 +18,11 @@ Mat ControlProcessor::process(const Mat &input){
     frameCount=frameCount+1;
     unprocessedFrame = input;
     processedFrame=filterProcessor->process(unprocessedFrame);
-    rawData = detectProcessor->analyse(processedFrame);
-    soundProcessor->send(rawData);
+    if (frameCount%3==0){
+        rawData = detectProcessor->analyse(processedFrame);
+        soundProcessor->process(false,100,rawData);
+    }
+
 
     return processedFrame;
     

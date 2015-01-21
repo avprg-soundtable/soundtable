@@ -8,8 +8,8 @@ class SoundProcessor
 {
 public:
     SoundProcessor();
-    void send(QVector<QVector<float> > rawData);
-    
+    void send(QVector<float> controlData, QVector<QVector<float> > audioData);
+    void process(bool sequenzer, int masterVol, QVector< QVector<float> > rawData);
 private:
     PureDataOSCController* pureDataOSCController;
 private:

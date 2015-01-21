@@ -12,7 +12,7 @@ class PureDataOSCController
 {
 public:
     PureDataOSCController();
-    void sendOSC(float value);
+    void sendOSC(sting route, float value);
 };
 
 #endif // PUREDATAOSCCONTROLLER_H
