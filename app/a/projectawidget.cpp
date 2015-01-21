@@ -13,11 +13,12 @@ ProjectAWidget::ProjectAWidget(QWidget *parent, AbstractProjectInfo *projectInfo
     connect(videoThread, SIGNAL(sendInputImage(const QImage&)), ui->inputFrame, SLOT(setImage(const QImage&)));
     connect(videoThread, SIGNAL(sendProcessedImage(const QImage&)), ui->outputFrame, SLOT(setImage(const QImage&)));
     updateParameters();
-    test();
 }
 
 ProjectAWidget::~ProjectAWidget()
 {
+   delete videoThread;
+    delete controlProcessor;
     delete ui;
 }
 
@@ -32,19 +33,29 @@ void ProjectAWidget::handleOpenFile(QString file){
 }
 
 void ProjectAWidget::updateParameters(){
-
+    qDebug() << "update ";
+    controlProcessor->setMasterVol(float(ui->masterVolSlider->value()));
+    if(ui->sequenzerCB->isChecked()==true){
+        controlProcessor->setMode(1);
+        ui->beatSB->setEnabled(true);
+    }
+    if(ui->addCB->isChecked()==true){
+        controlProcessor->setMode(0);
+        ui->beatSB->setEnabled(false);
+    }
+    controlProcessor->setBeat(float(ui->beatSB->value()));
+    if(ui->muteCB->isChecked()==true){
+        controlProcessor->setMute(1);
+    }else{
+        controlProcessor->setMute(0);
+    }
 }
 
-void ProjectAWidget::test(){
-    qDebug() << "Test ";
-}
+
 
 void ProjectAWidget::on_pushButton_clicked()
 {
     videoThread->start();
 }
 
-void ProjectAWidget::on_masterVolSlider_valueChanged(int value)
-{
 
-}

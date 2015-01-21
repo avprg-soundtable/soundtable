@@ -8,6 +8,7 @@ class DetectProcessor
 {
 public:
     DetectProcessor();
+     ~DetectProcessor();
     QVector< QVector<float> > analyse(const cv::Mat&source); //Rueckgabe anpassen!
     QVector<float> RegionAnalyse(const cv::Mat &input);
     int countCorners(Mat& image);

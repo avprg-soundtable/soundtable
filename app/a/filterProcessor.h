@@ -9,6 +9,7 @@ class FilterProcessor : public VideoProcessor
 {
 public:
     FilterProcessor();
+    ~FilterProcessor();
     void startProcessing(const VideoFormat& format){}
     cv::Mat process(const cv::Mat&source);
     void setMedianEnable(bool enable);

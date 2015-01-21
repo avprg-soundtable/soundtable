@@ -8,6 +8,7 @@ class SoundProcessor
 {
 public:
     SoundProcessor();
+    ~SoundProcessor();
     void send(QVector<float> controlData, QVector<QVector<float> > audioData);
     void process(bool sequenzer, int masterVol, QVector< QVector<float> > rawData);
 private:

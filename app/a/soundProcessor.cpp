@@ -12,6 +12,12 @@ SoundProcessor::SoundProcessor():
 
 }
 
+SoundProcessor::~SoundProcessor()
+{
+    //delete pureDataOSCController;
+}
+
+
 void SoundProcessor::process(bool sequenzer, int masterVol, QVector< QVector<float> > rawData){
 
     QVector<float> rawObject;

@@ -132,6 +132,9 @@
     <property name="text">
      <string>Modus 1</string>
     </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QRadioButton" name="sequenzerCB">
     <property name="geometry">
@@ -160,6 +163,9 @@
     </property>
    </widget>
    <widget class="QSpinBox" name="beatSB">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>96</x>
@@ -308,20 +314,180 @@
    <sender>masterVolSlider</sender>
    <signal>valueChanged(int)</signal>
    <receiver>ProjectAWidget</receiver>
-   <slot>test()</slot>
+   <slot>updateParameters()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>31</x>
-     <y>352</y>
+     <y>357</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>81</x>
+     <y>13</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>addCB</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>111</x>
+     <y>335</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>117</x>
+     <y>23</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sequenzerCB</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>243</x>
+     <y>340</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>247</x>
+     <y>12</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>beatSB</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>212</x>
+     <y>381</y>
     </hint>
     <hint type="destinationlabel">
      <x>339</x>
-     <y>289</y>
+     <y>25</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontalSlider_2</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>396</x>
+     <y>338</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>474</x>
+     <y>9</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontalSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>450</x>
+     <y>385</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>509</x>
+     <y>19</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontalSlider_3</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>476</x>
+     <y>420</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>659</x>
+     <y>12</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_2</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>391</x>
+     <y>461</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>678</x>
+     <y>48</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_4</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>522</x>
+     <y>462</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>678</x>
+     <y>95</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_3</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>419</x>
+     <y>494</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>679</x>
+     <y>133</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_5</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>498</x>
+     <y>494</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>682</x>
+     <y>174</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
-  <slot>test()</slot>
+  <slot>updateParameters()</slot>
  </slots>
 </ui>

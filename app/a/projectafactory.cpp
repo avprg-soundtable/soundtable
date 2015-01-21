@@ -7,7 +7,6 @@ AbstractProjectInfo* ProjectAFactory::createProjectInfo()
 {
     return new AbstractProjectInfo("Project A");
 }
-
 AbstractProjectWidget* ProjectAFactory::createProjectWidget()
 {
    return createProjectWidget(0, createProjectInfo());

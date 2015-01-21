@@ -9,6 +9,10 @@ DetectProcessor::DetectProcessor()
 {
 
 }
+DetectProcessor::~DetectProcessor()
+{
+
+}
 
 QVector< QVector<float> > DetectProcessor::analyse(const Mat &input){
     Mat mask;

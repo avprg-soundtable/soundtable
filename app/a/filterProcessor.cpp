@@ -18,6 +18,9 @@ FilterProcessor::FilterProcessor()
     pMOG2 = new cv::BackgroundSubtractorMOG2(500,14,true);
     pMOG2->setDouble("fTau",0.65);
 }
+FilterProcessor::~FilterProcessor()
+{
+}
 
 Mat FilterProcessor::process(const Mat &input){
     Mat binaryMask;

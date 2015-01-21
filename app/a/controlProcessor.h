@@ -11,14 +11,23 @@ class ControlProcessor : public VideoProcessor
 {
 public:
     ControlProcessor();
+    ~ControlProcessor();
     void startProcessing(const VideoFormat& format){}
     cv::Mat process(const cv::Mat&source);
     int sendtestvalue;
-    
+    void setMasterVol(float vol);
+    void setBeat(float pBeat);
+    void setMode(float pMode);
+    void setMute(float pMute);
 private:
     FilterProcessor* filterProcessor;
     DetectProcessor* detectProcessor;
     SoundProcessor* soundProcessor;
+    float masterVol;
+    float beat;
+    float mode;
+    float mute;
+
 
     int frameCount;
     cv::Mat unprocessedFrame;
