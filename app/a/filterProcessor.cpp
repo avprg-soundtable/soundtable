@@ -10,23 +10,65 @@ using namespace cv;
 FilterProcessor::FilterProcessor()
     : useMedian(true)
     , useOpening(true)
-    , useNoiseRecutiob(true)
+    , useNoiseRecution(true)
     , useEqualization(false)
     , bufferMode(true)
     , frameCount(0)
+    , alpha(1)
+    , beta(0)
+    , fTau(0.65)
+    , bufferSize(2)
 {
-    pMOG2 = new cv::BackgroundSubtractorMOG2(500,14,true);
+    pMOG2 = new cv::BackgroundSubtractorMOG2(500,20,true);
     pMOG2->setDouble("fTau",0.65);
+    pMOG2->setDouble("varThresholdGen",16);
+
 }
 FilterProcessor::~FilterProcessor()
 {
+}
+void FilterProcessor::setAlpha(double pAlpha){
+    alpha=pAlpha;
+}
+
+void FilterProcessor::setBeta(int pBeta){
+    beta=pBeta;
+}
+
+void FilterProcessor::setBufferSize(int pBufferSize){
+    bufferSize=pBufferSize;
+}
+
+
+void FilterProcessor::setUseEqualization(bool enable){
+    useEqualization=enable;
+}
+
+void FilterProcessor::setSigmaBackground(int pSigma){
+    sigmaBackground=pSigma;
+    pMOG2->setDouble("varThresholdGen",sigmaBackground);
+}
+
+void FilterProcessor::setfTau(double pfTau){
+    fTau=pfTau;
+    pMOG2->setDouble("fTau",fTau);
+}
+
+Mat FilterProcessor::preProcess(const Mat &input){
+    Mat frame;
+    input.convertTo(frame, -1, alpha, beta);
+    if (useEqualization){
+        frame=equalization(frame);
+    }
+    return frame;
 }
 
 Mat FilterProcessor::process(const Mat &input){
     Mat binaryMask;
     Mat frame;
     //Preprocessing
-    input.convertTo(frame, -1, 0.8, 0);
+    //image.convertTo(frame, -1, alpha, beta);
+    input.convertTo(frame, -1, 1.2, 0);
     if (useEqualization){
         frame=equalization(frame);
     }
@@ -41,14 +83,14 @@ Mat FilterProcessor::process(const Mat &input){
                 erode(binaryMask, binaryMask, Mat());
                 dilate(binaryMask, binaryMask, Mat());
             }
-            if(useNoiseRecutiob){
+            if(useNoiseRecution){
                binaryMask=noiseRecution(binaryMask);
             }
 
             bufferFrame=binaryMask;
             return binaryMask;
         }else{
-            if (frameCount==2){
+            if (frameCount==bufferSize){
                 frameCount=0;
              }
             return bufferFrame;
@@ -66,7 +108,7 @@ Mat FilterProcessor::process(const Mat &input){
             dilate(binaryMask, binaryMask, Mat());
         }
 
-        if(useNoiseRecutiob){
+        if(useNoiseRecution){
            binaryMask=noiseRecution(binaryMask);
         }
 
@@ -81,7 +123,7 @@ Mat FilterProcessor::filter(Mat& frame){
     Mat frameGray;
     cvtColor(frame, frametoProcess, CV_BGR2GRAY);
     pMOG2->operator ()(frametoProcess,fgMaskMOG2,0);
-    fgMaskMOG2 = removeShadows(fgMaskMOG2);
+    //fgMaskMOG2 = removeShadows(fgMaskMOG2);
     return fgMaskMOG2;
 }
 
@@ -144,6 +186,13 @@ Mat FilterProcessor::noiseRecution(Mat& binaryMask){
 
        return binaryMask;
 
+}
+void FilterProcessor::setUseBufferMode(bool enable){
+    this->bufferMode=enable;
+}
+
+void FilterProcessor::setUseNoiseReduction(bool enable){
+    this->useNoiseRecution=enable;
 }
 
 void FilterProcessor::setMedianEnable(bool enable){

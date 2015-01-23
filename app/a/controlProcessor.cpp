@@ -1,5 +1,7 @@
 #include "controlProcessor.h"
 #include <QDebug>
+#include <QImage>
+#include "../libs/videoengine/cvmattoqimage.h"
 using namespace cv;
 
 
@@ -23,7 +25,9 @@ ControlProcessor::~ControlProcessor()
 Mat ControlProcessor::process(const Mat &input){
     frameCount=frameCount+1;
     unprocessedFrame = input;
-    processedFrame=filterProcessor->process(unprocessedFrame);
+    PreProcessedFrame=filterProcessor->preProcess(unprocessedFrame);
+    //emit sendPreProcessedImage(cvMatToQImage(PreProcessedFrame));
+    processedFrame=filterProcessor->process(PreProcessedFrame);
     if (frameCount%3==0){
         rawData = detectProcessor->analyse(processedFrame);
         qDebug() << "ArrayControl: " << rawData.size();

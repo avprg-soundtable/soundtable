@@ -19,18 +19,21 @@ public:
     void setBeat(float pBeat);
     void setMode(float pMode);
     void setMute(float pMute);
-private:
     FilterProcessor* filterProcessor;
     DetectProcessor* detectProcessor;
+private:
+
     SoundProcessor* soundProcessor;
     float masterVol;
     float beat;
     float mode;
     float mute;
-
+signals:
+    void sendPreProcessedImage(const QImage&);
 
     int frameCount;
     cv::Mat unprocessedFrame;
+    cv::Mat PreProcessedFrame;
     cv::Mat processedFrame;
     QVector< QVector<float> > rawData;
 

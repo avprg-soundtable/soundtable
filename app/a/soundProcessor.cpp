@@ -73,6 +73,7 @@ void SoundProcessor::send(QVector<float> controlData, QVector< QVector<float> > 
      for(int i = 0; i < audioData.size(); i++){
          audioObject=audioData[i];
          QString route=("/object") + QString::number( i );
+
              pureDataOSCController->sendOSC(route+"/frequency",audioObject[3]);
          }
 

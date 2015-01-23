@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>690</width>
+    <width>1087</width>
     <height>545</height>
    </rect>
   </property>
@@ -70,7 +70,7 @@
   <widget class="VideoWidget" name="outputFrame">
    <property name="geometry">
     <rect>
-     <x>350</x>
+     <x>690</x>
      <y>40</y>
      <width>320</width>
      <height>240</height>
@@ -179,8 +179,8 @@
   <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
     <rect>
-     <x>350</x>
-     <y>290</y>
+     <x>690</x>
+     <y>280</y>
      <width>321</width>
      <height>241</height>
     </rect>
@@ -188,7 +188,7 @@
    <property name="title">
     <string>Filter Setting</string>
    </property>
-   <widget class="QSlider" name="horizontalSlider">
+   <widget class="QSlider" name="bgfTau">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -201,7 +201,7 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QSlider" name="horizontalSlider_2">
+   <widget class="QSlider" name="bgSigma">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -214,69 +214,72 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QSlider" name="horizontalSlider_3">
+   <widget class="QSlider" name="bufferSize">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>120</y>
+      <y>200</y>
       <width>281</width>
       <height>22</height>
      </rect>
+    </property>
+    <property name="maximum">
+     <number>30</number>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox_2">
+   <widget class="QCheckBox" name="medianCB">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>130</y>
+      <width>89</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>use Median</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="bufferCB">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>160</y>
+      <width>101</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Buffermode</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="openingCB">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>130</y>
+      <width>101</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>use Opening</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="noiseCB">
     <property name="geometry">
      <rect>
       <x>20</x>
       <y>160</y>
-      <width>89</width>
+      <width>121</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>CheckBox</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="checkBox_3">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>190</y>
-      <width>89</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>CheckBox</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="checkBox_4">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>160</y>
-      <width>89</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>CheckBox</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="checkBox_5">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>190</y>
-      <width>89</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>CheckBox</string>
+     <string>Noise reduction</string>
     </property>
    </widget>
   </widget>
@@ -293,6 +296,92 @@
     <string>PushButton</string>
    </property>
   </widget>
+  <widget class="VideoWidget" name="preProcessedFrame">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>40</y>
+     <width>320</width>
+     <height>240</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="scaledContents">
+    <bool>false</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_3">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>290</y>
+     <width>311</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Preprocessing</string>
+   </property>
+   <widget class="QSlider" name="aphaPreprocess">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>271</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>30</number>
+    </property>
+    <property name="pageStep">
+     <number>10</number>
+    </property>
+    <property name="value">
+     <number>10</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="betaPreprocess">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>70</y>
+      <width>271</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>50</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="HistCB">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>120</y>
+      <width>211</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Histogram equalization</string>
+    </property>
+   </widget>
+  </widget>
   <zorder>groupBox_2</zorder>
   <zorder>label</zorder>
   <zorder>pushButton</zorder>
@@ -300,6 +389,8 @@
   <zorder>outputFrame</zorder>
   <zorder>groupBox</zorder>
   <zorder>pushButton_2</zorder>
+  <zorder>preProcessedFrame</zorder>
+  <zorder>groupBox_3</zorder>
  </widget>
  <customwidgets>
   <customwidget>
@@ -375,14 +466,14 @@
    </hints>
   </connection>
   <connection>
-   <sender>horizontalSlider_2</sender>
+   <sender>bgSigma</sender>
    <signal>valueChanged(int)</signal>
    <receiver>ProjectAWidget</receiver>
    <slot>updateParameters()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>396</x>
-     <y>338</y>
+     <x>736</x>
+     <y>328</y>
     </hint>
     <hint type="destinationlabel">
      <x>474</x>
@@ -391,14 +482,14 @@
    </hints>
   </connection>
   <connection>
-   <sender>horizontalSlider</sender>
+   <sender>bgfTau</sender>
    <signal>valueChanged(int)</signal>
    <receiver>ProjectAWidget</receiver>
    <slot>updateParameters()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>450</x>
-     <y>385</y>
+     <x>790</x>
+     <y>375</y>
     </hint>
     <hint type="destinationlabel">
      <x>509</x>
@@ -407,14 +498,14 @@
    </hints>
   </connection>
   <connection>
-   <sender>horizontalSlider_3</sender>
+   <sender>bufferSize</sender>
    <signal>valueChanged(int)</signal>
    <receiver>ProjectAWidget</receiver>
    <slot>updateParameters()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>476</x>
-     <y>420</y>
+     <x>816</x>
+     <y>410</y>
     </hint>
     <hint type="destinationlabel">
      <x>659</x>
@@ -423,14 +514,14 @@
    </hints>
   </connection>
   <connection>
-   <sender>checkBox_2</sender>
+   <sender>medianCB</sender>
    <signal>clicked()</signal>
    <receiver>ProjectAWidget</receiver>
    <slot>updateParameters()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>391</x>
-     <y>461</y>
+     <x>731</x>
+     <y>451</y>
     </hint>
     <hint type="destinationlabel">
      <x>678</x>
@@ -439,14 +530,14 @@
    </hints>
   </connection>
   <connection>
-   <sender>checkBox_4</sender>
+   <sender>openingCB</sender>
    <signal>clicked()</signal>
    <receiver>ProjectAWidget</receiver>
    <slot>updateParameters()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>522</x>
-     <y>462</y>
+     <x>862</x>
+     <y>452</y>
     </hint>
     <hint type="destinationlabel">
      <x>678</x>
@@ -455,14 +546,14 @@
    </hints>
   </connection>
   <connection>
-   <sender>checkBox_3</sender>
+   <sender>bufferCB</sender>
    <signal>clicked()</signal>
    <receiver>ProjectAWidget</receiver>
    <slot>updateParameters()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>419</x>
-     <y>494</y>
+     <x>759</x>
+     <y>484</y>
     </hint>
     <hint type="destinationlabel">
      <x>679</x>
@@ -471,18 +562,66 @@
    </hints>
   </connection>
   <connection>
-   <sender>checkBox_5</sender>
+   <sender>noiseCB</sender>
    <signal>clicked()</signal>
    <receiver>ProjectAWidget</receiver>
    <slot>updateParameters()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>498</x>
-     <y>494</y>
+     <x>838</x>
+     <y>484</y>
     </hint>
     <hint type="destinationlabel">
      <x>682</x>
      <y>174</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>aphaPreprocess</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>424</x>
+     <y>333</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>874</x>
+     <y>9</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>betaPreprocess</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>522</x>
+     <y>383</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1034</x>
+     <y>19</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>HistCB</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>439</x>
+     <y>459</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1043</x>
+     <y>71</y>
     </hint>
    </hints>
   </connection>

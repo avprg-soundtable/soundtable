@@ -20,10 +20,16 @@ QVector< QVector<float> > DetectProcessor::analyse(const Mat &input){
     input.copyTo(mask);
     vector<vector<Point> >contours;
     findContours(mask, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
-    for(int i = 0; i < contours.size(); i++){
+    int anzahlGefundenerObjekte = contours.size();
+    if (anzahlGefundenerObjekte>=14){
+        anzahlGefundenerObjekte=14;
+    }
+    for(int i = 0; i < anzahlGefundenerObjekte; i++){
+
                     Mat maskSingleRegion(mask.rows,mask.cols,CV_8UC1,Scalar(0, 0, 0));
                     drawContours(maskSingleRegion, contours, i, Scalar(255, 255, 255), CV_FILLED);
                     datas[i]=RegionAnalyse(maskSingleRegion);
+
             }
             //vector<Point>contour = contours[i];
             //int area = contourArea(contour);
