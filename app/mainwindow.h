@@ -23,6 +23,7 @@ protected:
     void initProjectsMenu();
 
     void changeProject(AbstractProjectFactory::PROJECT_FACTORIES newProject);
+    void updateWindowTitle();
     void displayNoProjectSelectedError();
 
 private slots:
@@ -31,6 +32,7 @@ private slots:
     void openProject(QAction* action);
 
 private:
+    const QString WINDOW_TITLE;
     Ui::MainWindow *ui;
     AbstractProjectFactory::PROJECT_FACTORIES currentProject;
     AbstractProjectInfo *currentProjectInfo;
