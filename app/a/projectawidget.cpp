@@ -44,7 +44,7 @@ void ProjectAWidget::updateParameters(){
         controlProcessor->filterProcessor->setUseEqualization(false);
     }
     controlProcessor->filterProcessor->setSigmaBackground(ui->bgSigma->value());
-    controlProcessor->filterProcessor->setfTau(double(ui->bgfTau->value()/10.0));
+    controlProcessor->filterProcessor->setfTau(double(ui->bgfTau->value()/100.0));
     if(ui->medianCB->isChecked()==true){
         controlProcessor->filterProcessor->setMedianEnable(true);
     }else{
