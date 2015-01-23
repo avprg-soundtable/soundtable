@@ -17,9 +17,11 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     currentProject(AbstractProjectFactory::NO_PROJECT),
-    currentProjectWidget(0)
+    currentProjectWidget(0),
+    WINDOW_TITLE("SoundTable")
 {
     ui->setupUi(this);
+    setWindowTitle(WINDOW_TITLE);
     connect(ui->actionOpenFile, SIGNAL(triggered()), this, SLOT(openFile()));
     initDevicesMenu();
     initProjectsMenu();
@@ -73,6 +75,7 @@ void MainWindow::changeProject(AbstractProjectFactory::PROJECT_FACTORIES newProj
     if (currentProject != AbstractProjectFactory::NO_PROJECT) {
         ui->stackedProjectsWidget->setCurrentIndex(AbstractProjectFactory::NO_PROJECT);
         ui->stackedProjectsWidget->removeWidget(currentProjectWidget);
+        currentProject = AbstractProjectFactory::NO_PROJECT;
         delete currentProjectWidget;
         delete currentProjectInfo;
     }
@@ -84,9 +87,19 @@ void MainWindow::changeProject(AbstractProjectFactory::PROJECT_FACTORIES newProj
     currentProjectWidget = factory->createProjectWidget(this, currentProjectInfo);
     ui->stackedProjectsWidget->addWidget(currentProjectWidget);
     ui->stackedProjectsWidget->setCurrentWidget(currentProjectWidget);
-
+    updateWindowTitle();
     // Deconstruct factory after use
     delete factory;
+}
+
+void MainWindow::updateWindowTitle()
+{
+    if (currentProject == AbstractProjectFactory::NO_PROJECT) {
+        setWindowTitle(WINDOW_TITLE);
+        return;
+    }
+    QString newTitle = WINDOW_TITLE + " - " + currentProjectInfo->name();
+    setWindowTitle(newTitle);
 }
 
 void MainWindow::displayNoProjectSelectedError() {
