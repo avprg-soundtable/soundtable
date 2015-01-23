@@ -23,7 +23,7 @@ public:
     void setUseNoiseReduction(bool enable);
     void setSigmaBackground(int pSigma);
     void setBufferSize(int pBufferSize);
-    void reinitializeBG(cv::Mat& background);
+    void reinitializeBG(Mat& background);
 private:
     cv::Mat filter(cv::Mat& input);
     cv::Mat equalization(Mat& frame);

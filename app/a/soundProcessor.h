@@ -10,12 +10,26 @@ public:
     SoundProcessor();
     ~SoundProcessor();
     void send(QVector<float> controlData, QVector<QVector<float> > audioData);
-    void process(bool sequenzer, int masterVol, QVector< QVector<float> > rawData);
+    void process(float sequenzer, float masterVol,float seqSpeed, QVector< QVector<float> > rawData);
 private:
     PureDataOSCController* pureDataOSCController;
     QVector< QVector<float> > audioData;
     QVector< float > controlData;
-    float calcFrequency(QVector<float> rawObject);
+    float calcSawOn(QVector<float> rawObject);
+    float calcSawNote(QVector<float> rawObject);
+    float calcSawVolume(QVector<float> rawObject);
+    float calcSawModul(QVector<float> rawObject);
+    float calcSawHarmon(QVector<float> rawObject);
+    float calcSinOn(QVector<float> rawObject);
+    float calcSinNote(QVector<float> rawObject);
+    float calcSinVolume(QVector<float> rawObject);
+    float calcSinModul(QVector<float> rawObject);
+    float calcSinHarmon(QVector<float> rawObject);
+    float calcSquareOn(QVector<float> rawObject);
+    float calcSquareNote(QVector<float> rawObject);
+    float calcSquareVolume(QVector<float> rawObject);
+    float calcSquareModul(QVector<float> rawObject);
+    float calcSquareHarmon(QVector<float> rawObject);
 private:
 
    

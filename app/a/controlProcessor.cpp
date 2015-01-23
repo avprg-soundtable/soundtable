@@ -12,6 +12,9 @@ ControlProcessor::ControlProcessor():
   , frameCount(0)
   , sendtestvalue(0)
   , rawData(15)
+  , masterVol(2)
+  , mode(0)
+  , beat(350)
 {
 
 }
@@ -24,14 +27,16 @@ ControlProcessor::~ControlProcessor()
 }
 Mat ControlProcessor::process(const Mat &input){
     frameCount=frameCount+1;
-    unprocessedFrame = input;
-    PreProcessedFrame=filterProcessor->preProcess(unprocessedFrame);
+    unprocessedFrameHuge = input;
+    resize(unprocessedFrameHuge,unprocessedFrameSmall,Size(640, 480), 0, 0, CV_INTER_AREA);
+    PreProcessedFrame=filterProcessor->preProcess(unprocessedFrameSmall);
     //emit sendPreProcessedImage(cvMatToQImage(PreProcessedFrame));
     processedFrame=filterProcessor->process(PreProcessedFrame);
     if (frameCount%3==0){
         rawData = detectProcessor->analyse(processedFrame);
-        qDebug() << "ArrayControl: " << rawData.size();
-        soundProcessor->process(mode,masterVol,rawData);
+        soundProcessor->process(float(mode),float(masterVol),float(beat) ,rawData);
+        //qDebug() << "ArrayControl: " << rawData.size();
+
     }
 
 

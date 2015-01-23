@@ -5,7 +5,7 @@ using namespace cv;
 
 
 DetectProcessor::DetectProcessor()
- 
+
 {
 
 }
@@ -13,7 +13,6 @@ DetectProcessor::~DetectProcessor()
 {
 
 }
-
 QVector< QVector<float> > DetectProcessor::analyse(const Mat &input){
     Mat mask;
     QVector< QVector<float> > datas(15);
@@ -40,11 +39,11 @@ QVector< QVector<float> > DetectProcessor::analyse(const Mat &input){
 
     datas=sortRawData(datas);
     for(int n = 0; n < datas.size(); n++){
-        qDebug() << "ArrayNr.: " << n;
+        //qDebug() << "ArrayNr.: " << n;
         if (datas[n].isEmpty()==false){
         for(int m = 0; m < datas[n].size(); m++){
 
-            qDebug() << "ArrayInhalt: " << m << " " <<datas[n][m];
+            //qDebug() << "ArrayInhalt: " << m << " " <<datas[n][m];
         }
         }
     }

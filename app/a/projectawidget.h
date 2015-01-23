@@ -28,6 +28,8 @@ private slots:
     void on_pushButton_clicked();
     void updateParameters();
 
+    void on_pushButton_2_clicked();
+
 private:
     Ui::ProjectAWidget *ui;
     VideoEngine *videoThread;

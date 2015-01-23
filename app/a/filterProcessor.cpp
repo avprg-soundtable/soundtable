@@ -66,9 +66,10 @@ Mat FilterProcessor::preProcess(const Mat &input){
 Mat FilterProcessor::process(const Mat &input){
     Mat binaryMask;
     Mat frame;
+    input.copyTo(frame);
     //Preprocessing
     //image.convertTo(frame, -1, alpha, beta);
-    input.convertTo(frame, -1, 1.2, 0);
+    //input.convertTo(frame, -1, 1.2, 0);
     if (useEqualization){
         frame=equalization(frame);
     }
@@ -123,7 +124,7 @@ Mat FilterProcessor::filter(Mat& frame){
     Mat frameGray;
     cvtColor(frame, frametoProcess, CV_BGR2GRAY);
     pMOG2->operator ()(frametoProcess,fgMaskMOG2,0);
-    //fgMaskMOG2 = removeShadows(fgMaskMOG2);
+    fgMaskMOG2 = removeShadows(fgMaskMOG2);
     return fgMaskMOG2;
 }
 
@@ -147,7 +148,8 @@ void FilterProcessor::reinitializeBG(Mat& background){
     //not working so far
     Mat ignoreMask;
     Mat frametoProcess;
-    frametoProcess=equalization(background);
+    background.copyTo(frametoProcess);
+    //frametoProcess=equalization(background);
     pMOG2 = NULL;
     pMOG2 = new cv::BackgroundSubtractorMOG(5000,0,0.1,0);
     pMOG2->operator ()(frametoProcess,ignoreMask,1);

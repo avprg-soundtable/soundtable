@@ -35,7 +35,7 @@ void ProjectAWidget::handleOpenFile(QString file){
 
 void ProjectAWidget::updateParameters(){
     qDebug() << "update ";
-    controlProcessor->setMasterVol(float(ui->masterVolSlider->value()));
+    controlProcessor->setMasterVol(float(ui->masterVolSlider->value()/100.0));
     controlProcessor->filterProcessor->setAlpha(double(ui->aphaPreprocess->value()/10.0));
     controlProcessor->filterProcessor->setBeta(ui->betaPreprocess->value());
     if(ui->HistCB->isChecked()==true){
@@ -93,3 +93,17 @@ void ProjectAWidget::on_pushButton_clicked()
 }
 
 
+
+void ProjectAWidget::on_pushButton_2_clicked()
+{
+    videoThread->stop();
+    videoThread=new VideoEngine;
+    controlProcessor=new ControlProcessor();
+    videoThread->setProcessor(controlProcessor);
+    videoThread->openCamera(0);
+
+    videoThread->start();
+
+
+    //controlProcessor->filterProcessor->reinitializeBG(controlProcessor->unprocessedFrame);
+}

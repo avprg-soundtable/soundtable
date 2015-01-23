@@ -21,6 +21,8 @@ public:
     void setMute(float pMute);
     FilterProcessor* filterProcessor;
     DetectProcessor* detectProcessor;
+    cv::Mat unprocessedFrameHuge;
+    cv::Mat unprocessedFrameSmall;
 private:
 
     SoundProcessor* soundProcessor;
@@ -32,7 +34,7 @@ signals:
     void sendPreProcessedImage(const QImage&);
 
     int frameCount;
-    cv::Mat unprocessedFrame;
+
     cv::Mat PreProcessedFrame;
     cv::Mat processedFrame;
     QVector< QVector<float> > rawData;
