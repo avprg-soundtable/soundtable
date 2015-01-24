@@ -35,13 +35,12 @@ Mat ControlProcessor::process(const Mat &input){
     if (frameCount%3==0){
         rawData = detectProcessor->analyse(processedFrame);
         soundProcessor->process(float(mode),float(masterVol),float(beat) ,rawData);
-        //qDebug() << "ArrayControl: " << rawData.size();
-
     }
-
-
+    if(frameCount==60){
+        frameCount=0;
+    }
     return processedFrame;
-    
+
 }
 void ControlProcessor::setMute(float pMute){
     mute=pMute;

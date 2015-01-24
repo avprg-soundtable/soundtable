@@ -4,7 +4,6 @@
 
 using namespace cv;
 
-
 SoundProcessor::SoundProcessor():
     pureDataOSCController(new PureDataOSCController)
 {
@@ -18,7 +17,6 @@ SoundProcessor::~SoundProcessor()
 
 
 void SoundProcessor::process(float sequenzer, float masterVol,float seqSpeed, QVector< QVector<float> > rawData){
-
     QVector<float> rawObject;
     QVector<float> audioObject(15);
     controlData.clear();
@@ -36,7 +34,7 @@ void SoundProcessor::process(float sequenzer, float masterVol,float seqSpeed, QV
     int numberParams = 15;    //number of parameters
     int numberInsertedAudioObjects =0;
     for(int i = 0; i < rawData.size(); i++){                    //Anzahl gefundener Objekte
-       qDebug() << "Arraygroesse Raw Data: " << rawData.size();
+       //qDebug() << "Arraygroesse Raw Data: " << rawData.size();
         if (rawData.isEmpty()==false){                            //
             if (rawData[i].isEmpty()==false){
                 rawObject=rawData[i];
@@ -58,12 +56,9 @@ void SoundProcessor::process(float sequenzer, float masterVol,float seqSpeed, QV
                  }
              }
         }
-
         audioData.append(audioObject);
         numberInsertedAudioObjects=numberInsertedAudioObjects+1;
-
     }
-
     for(int k = 0; k < 15-numberInsertedAudioObjects; k++)            //Fülle restlichen audioObjekte mit 0
      {
                 for(int j = 0; j < numberParams; j++){
@@ -71,30 +66,38 @@ void SoundProcessor::process(float sequenzer, float masterVol,float seqSpeed, QV
                 }
                 audioData.append(audioObject);
      }
-        qDebug() << "Arraygroesse controlDATA: " << controlData.size();
+        //qDebug() << "Arraygroesse controlDATA: " << controlData.size();
         send(controlData,audioData);
-
 }
-
-//float SoundProcessor::calcFrequency(QVector<float> rawObject){
-//    float area=rawObject[3];
-//    if (area<64){
-//        area=64;
-//    }
-//    if (area>12000){
-//        area=12000;
-//    }
-//    return -1,5*area+18096;
-//}
 
 float SoundProcessor::calcSawOn(QVector<float> rawObject){
-    if (rawObject[5]>=10){
-
+    if (rawObject[5]>=15){
+        return 1;
+    }else{
+        return 0;
     }
-    return 1;
 }
 float SoundProcessor::calcSawNote(QVector<float> rawObject){
-    return 1;
+   qDebug() << "Groesse " << rawObject[3];
+    float note=rawObject[3];
+    int min = 64;
+    int max = 20064;
+    if(note<=min){
+        note=min;
+    }
+    if(note>=max){
+        note= max;
+    }
+    note=note-min;
+    note=note/max;
+//    note=((note)*(note)*(3-2*(note)));
+//    note=((note)*(note)*(3-2*(note)));
+//    note=((note)*(note)*(3-2*(note)));
+    note=1-note;
+    note=note*89+1;
+    int rounded = note;
+    qDebug() << "Note " << rounded;
+    return float(rounded);
 }
 float SoundProcessor::calcSawVolume(QVector<float> rawObject){
     return 1;
@@ -106,7 +109,11 @@ float SoundProcessor::calcSawHarmon(QVector<float> rawObject){
     return 1;
 }
 float SoundProcessor::calcSinOn(QVector<float> rawObject){
-    return 1;
+    if (rawObject[5]>=18){
+        return 0;
+    }else{
+        return 1;
+    }
 }
 float SoundProcessor::calcSinNote(QVector<float> rawObject){
     return 1;
@@ -121,7 +128,11 @@ float SoundProcessor::calcSinHarmon(QVector<float> rawObject){
     return 1;
 }
 float SoundProcessor::calcSquareOn(QVector<float> rawObject){
-    return 1;
+    if ((rawObject[5]>=8)&&(rawObject[5]<=16)){
+        return 1;
+    }else{
+        return 0;
+    }
 }
 float SoundProcessor::calcSquareNote(QVector<float> rawObject){
     return 1;
@@ -142,11 +153,11 @@ void SoundProcessor::send(QVector<float> controlData, QVector< QVector<float> > 
      pureDataOSCController->sendOSC("/sequenz",controlData[2]);
      pureDataOSCController->sendOSC("/objCount",controlData[3]);
      pureDataOSCController->sendOSC("/seqSpeed",controlData[4]);
-     qDebug() << "Control Vol: " << controlData[0];
-     qDebug() << "Control create: " << controlData[1];
-     qDebug() << "Control sequenz " << controlData[2];
-     qDebug() << "Control ObjCount: " << controlData[3];
-     qDebug() << "Control seqSpeed: " << controlData[4];
+//     qDebug() << "Control Vol: " << controlData[0];
+//     qDebug() << "Control create: " << controlData[1];
+//     qDebug() << "Control sequenz " << controlData[2];
+//     qDebug() << "Control ObjCount: " << controlData[3];
+//     qDebug() << "Control seqSpeed: " << controlData[4];
 
      QVector<float> audioObject;
      for(int i = 0; i < audioData.size(); i++){

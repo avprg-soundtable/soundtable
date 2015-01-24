@@ -90,8 +90,6 @@ QVector<float> DetectProcessor::RegionAnalyse(const Mat &input){
     findContours(copyOfMask, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
     vector<Point>contour = contours[0];
     Moments imageMoments = moments(contours[0]);
-    //double huMoments[7];
-    //HuMoments(imageMoments,huMoments);
     CvRect boundingMaskRect = boundingRect(contour);
     RotatedRect minBoundingMaskRect = minAreaRect(contour);
     RotatedRect boundingEllipseMask = fitEllipse(contour);
@@ -160,25 +158,5 @@ int DetectProcessor::countCorners(Mat& image){
     return corners.size();
 }
 
-
-void DetectProcessor::centerOfMass(Mat& image){
-    int sumx = 0;
-    int sumy = 0;
-    int count = 0;
-    float alpha = 0.9;
-    cv::Point center;
-    for(int x = 0; x < image.cols; x++){
-        for (int y = 0; y < image.rows; y++){
-            if (image.at<uchar>(y,x) == 255){
-                sumx += x;
-                sumy += y;
-                count++;
-            }
-        }
-    }
-    if (count > 0){
-        center = (1 - alpha) * center + alpha * Point(sumx/count, sumy/count);
-    }
-}
 
 

@@ -67,15 +67,9 @@ Mat FilterProcessor::process(const Mat &input){
     Mat binaryMask;
     Mat frame;
     input.copyTo(frame);
-    //Preprocessing
-    //image.convertTo(frame, -1, alpha, beta);
-    //input.convertTo(frame, -1, 1.2, 0);
-    if (useEqualization){
-        frame=equalization(frame);
-    }
     if(bufferMode){
         if (frameCount==0){
-
+            // perform filter
             binaryMask = filter(frame);
             if (useMedian){
                 medianBlur(binaryMask, binaryMask, 5);
@@ -87,7 +81,7 @@ Mat FilterProcessor::process(const Mat &input){
             if(useNoiseRecution){
                binaryMask=noiseRecution(binaryMask);
             }
-
+            // set Buffer Frame
             bufferFrame=binaryMask;
             return binaryMask;
         }else{
