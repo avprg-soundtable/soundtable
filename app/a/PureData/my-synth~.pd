@@ -5,7 +5,7 @@
 1;
 #X obj 109 383 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
-#X obj 431 17 inlet;
+#X obj 407 15 inlet;
 #X obj -31 659 outlet~;
 #X floatatom 265 117 5 0 0 0 - - -;
 #X floatatom 266 254 5 0 0 0 - - -;
@@ -107,6 +107,10 @@
 #X connect 3 0 60 0;
 #X connect 3 0 61 0;
 #X connect 3 0 62 0;
+#X connect 3 0 52 0;
+#X connect 3 0 53 0;
+#X connect 3 0 54 0;
+#X connect 3 0 55 0;
 #X connect 8 0 7 0;
 #X connect 8 0 18 1;
 #X connect 9 0 6 0;
