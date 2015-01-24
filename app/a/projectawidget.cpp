@@ -103,7 +103,5 @@ void ProjectAWidget::on_pushButton_2_clicked()
     videoThread->openCamera(0);
 
     videoThread->start();
-
-
     //controlProcessor->filterProcessor->reinitializeBG(controlProcessor->unprocessedFrame);
 }

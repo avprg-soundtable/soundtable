@@ -14,7 +14,9 @@ public:
 private:
     PureDataOSCController* pureDataOSCController;
     QVector< QVector<float> > audioData;
+    QVector< QVector<float> > audioDataBuffer;
     QVector< float > controlData;
+    QVector< float > controlDataBuffer;
     float calcSawOn(QVector<float> rawObject);
     float calcSawNote(QVector<float> rawObject);
     float calcSawVolume(QVector<float> rawObject);

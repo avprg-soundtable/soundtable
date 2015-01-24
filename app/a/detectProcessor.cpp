@@ -3,7 +3,6 @@
 #include <QDebug>
 using namespace cv;
 
-
 DetectProcessor::DetectProcessor()
 
 {
@@ -24,31 +23,20 @@ QVector< QVector<float> > DetectProcessor::analyse(const Mat &input){
         anzahlGefundenerObjekte=14;
     }
     for(int i = 0; i < anzahlGefundenerObjekte; i++){
+        Mat maskSingleRegion(mask.rows,mask.cols,CV_8UC1,Scalar(0, 0, 0));
+        drawContours(maskSingleRegion, contours, i, Scalar(255, 255, 255), CV_FILLED);
+        datas[i]=RegionAnalyse(maskSingleRegion);
 
-                    Mat maskSingleRegion(mask.rows,mask.cols,CV_8UC1,Scalar(0, 0, 0));
-                    drawContours(maskSingleRegion, contours, i, Scalar(255, 255, 255), CV_FILLED);
-                    datas[i]=RegionAnalyse(maskSingleRegion);
-
-            }
-            //vector<Point>contour = contours[i];
-            //int area = contourArea(contour);
-            //qDebug() << "Objekte-Nr.: " << i;
-            //qDebug() << "Objekte-Nr.: " << area;
-
-
-
+    }
     datas=sortRawData(datas);
     for(int n = 0; n < datas.size(); n++){
-        qDebug() << "ArrayNr.: " << n;
-        if (datas[n].isEmpty()==false){
-            qDebug() << "Anzahl Ecken " <<datas[n][5];
-        for(int m = 0; m < datas[n].size(); m++){
 
+        if (datas[n].isEmpty()==false){
+        for(int m = 0; m < datas[n].size(); m++){
             //qDebug() << "ArrayInhalt: " << m << " " <<datas[n][m];
         }
         }
     }
-
     return datas;
   }
 
@@ -94,13 +82,12 @@ QVector<float> DetectProcessor::RegionAnalyse(const Mat &input){
     vector<vector<Point> >approxContours(1);
     vector<Point> approxContour;
     //approx the shape
-    approxPolyDP(contour,approxContour,0.2*arcLength(contour,true),true);
+    approxPolyDP(contour,approxContour,0.05*arcLength(contour,true),true);
     approxContours[0]=approxContour;
     //create mat with approxed Shape for corner detection
     Mat maskSingleRegionApproxed(maskSingleRegion.rows,maskSingleRegion.cols,CV_8UC1,Scalar(0, 0, 0));
-    drawContours(maskSingleRegionApproxed, approxContours, -1, Scalar(255, 255, 255), CV_FILLED);
-
-    Moments imageMoments = moments(contours[0]);
+    drawContours(maskSingleRegionApproxed, approxContours, 0, Scalar(255, 255, 255), CV_FILLED);
+    Moments imageMoments = moments(contour);
     CvRect boundingMaskRect = boundingRect(contour);
     RotatedRect minBoundingMaskRect = minAreaRect(contour);
     RotatedRect boundingEllipseMask = fitEllipse(contour);
@@ -113,9 +100,9 @@ QVector<float> DetectProcessor::RegionAnalyse(const Mat &input){
     // Area
     regionRaw[3]= imageMoments.m00;
     // Umfang
-    regionRaw[4]= arcLength(contour,true);
+    regionRaw[4]= arcLength(approxContour,true);
     // Anzahl Ecken
-    regionRaw[5]=countCorners(maskSingleRegionApproxed);
+    regionRaw[5]=countCorners(maskSingleRegion);
     // Area minBoundingRect
     regionRaw[6]=minBoundingMaskRect.size.area();
     // Area boundingRect
@@ -126,7 +113,7 @@ QVector<float> DetectProcessor::RegionAnalyse(const Mat &input){
     regionRaw[9]=boundingMaskRect.height/boundingMaskRect.width;
     // extend
     regionRaw[11]= imageMoments.m00/(boundingMaskRect.height*boundingMaskRect.width);
-
+    // qDebug() << "Verhaeltnis Umfang-Flaeche " << regionRaw[4]/regionRaw[3];
     return regionRaw;
 }
 
@@ -146,10 +133,10 @@ int DetectProcessor::countCorners(Mat& image){
     // For example, if the best corner has the quality measure = 1500,
     // and the qualityLevel=0.01 , then all the corners which quality measure is
     // less than 15 will be rejected.
-    double qualityLevel = 0.01;
+    double qualityLevel = 0.015;
 
     // minDistance – The minimum possible Euclidean distance between the returned corners
-    double minDistance = 20.;
+    double minDistance = 60.;
 
     // mask – The optional region of interest. If the image is not empty (then it
     // needs to have the type CV_8UC1 and the same size as image ), it will specify
@@ -158,7 +145,7 @@ int DetectProcessor::countCorners(Mat& image){
 
     // blockSize – Size of the averaging block for computing derivative covariation
     // matrix over each pixel neighborhood, see cornerEigenValsAndVecs()
-    int blockSize = 3;
+    int blockSize = 8;
 
     // useHarrisDetector – Indicates, whether to use operator or cornerMinEigenVal()
     bool useHarrisDetector = false;

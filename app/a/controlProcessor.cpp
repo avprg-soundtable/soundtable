@@ -32,7 +32,7 @@ Mat ControlProcessor::process(const Mat &input){
     PreProcessedFrame=filterProcessor->preProcess(unprocessedFrameSmall);
     //emit sendPreProcessedImage(cvMatToQImage(PreProcessedFrame));
     processedFrame=filterProcessor->process(PreProcessedFrame);
-    if (frameCount%3==0){
+    if (frameCount%2==0){
         rawData = detectProcessor->analyse(processedFrame);
         soundProcessor->process(float(mode),float(masterVol),float(beat) ,rawData);
     }
