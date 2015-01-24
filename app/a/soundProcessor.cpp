@@ -81,7 +81,7 @@ float SoundProcessor::calcSawNote(QVector<float> rawObject){
    qDebug() << "Groesse " << rawObject[3];
     float note=rawObject[3];
     int min = 64;
-    int max = 20064;
+    int max = 15064;
     if(note<=min){
         note=min;
     }
