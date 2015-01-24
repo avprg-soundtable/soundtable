@@ -39,8 +39,9 @@ QVector< QVector<float> > DetectProcessor::analyse(const Mat &input){
 
     datas=sortRawData(datas);
     for(int n = 0; n < datas.size(); n++){
-        //qDebug() << "ArrayNr.: " << n;
+        qDebug() << "ArrayNr.: " << n;
         if (datas[n].isEmpty()==false){
+            qDebug() << "Anzahl Ecken " <<datas[n][5];
         for(int m = 0; m < datas[n].size(); m++){
 
             //qDebug() << "ArrayInhalt: " << m << " " <<datas[n][m];
@@ -89,6 +90,16 @@ QVector<float> DetectProcessor::RegionAnalyse(const Mat &input){
     vector<vector<Point> >contours;
     findContours(copyOfMask, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
     vector<Point>contour = contours[0];
+    //vectors for approxed polygon
+    vector<vector<Point> >approxContours(1);
+    vector<Point> approxContour;
+    //approx the shape
+    approxPolyDP(contour,approxContour,0.2*arcLength(contour,true),true);
+    approxContours[0]=approxContour;
+    //create mat with approxed Shape for corner detection
+    Mat maskSingleRegionApproxed(maskSingleRegion.rows,maskSingleRegion.cols,CV_8UC1,Scalar(0, 0, 0));
+    drawContours(maskSingleRegionApproxed, approxContours, -1, Scalar(255, 255, 255), CV_FILLED);
+
     Moments imageMoments = moments(contours[0]);
     CvRect boundingMaskRect = boundingRect(contour);
     RotatedRect minBoundingMaskRect = minAreaRect(contour);
@@ -104,7 +115,7 @@ QVector<float> DetectProcessor::RegionAnalyse(const Mat &input){
     // Umfang
     regionRaw[4]= arcLength(contour,true);
     // Anzahl Ecken
-    regionRaw[5]=countCorners(maskSingleRegion);
+    regionRaw[5]=countCorners(maskSingleRegionApproxed);
     // Area minBoundingRect
     regionRaw[6]=minBoundingMaskRect.size.area();
     // Area boundingRect
@@ -125,7 +136,7 @@ int DetectProcessor::countCorners(Mat& image){
 
     // maxCorners – The maximum number of corners to return. If there are more corners
     // than that will be found, the strongest of them will be returned
-    int maxCorners = 10;
+    int maxCorners = 20;
 
     // qualityLevel – Characterizes the minimal accepted quality of image corners;
     // the value of the parameter is multiplied by the by the best corner quality
