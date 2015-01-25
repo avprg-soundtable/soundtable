@@ -1,4 +1,4 @@
-#N canvas 6 22 810 635 10;
+#N canvas 6 23 1031 900 10;
 #X declare -lib mrpeach;
 #N canvas 793 223 563 393 OSCNetwork 0;
 #X obj 53 -404 import mrpeach;
@@ -21,7 +21,7 @@
 #X array outputwave 1000 float 2;
 #X coords 0 1 1000 -1 200 140 1;
 #X restore 231 780 graph;
-#X obj 231 923 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#X obj 231 923 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
 #X obj 31 981 metro 100;
 #X obj 25 999 tabwrite~ outputwave;
