@@ -78,60 +78,59 @@ void SoundProcessor::process(float sequenzer, float masterVol,float seqSpeed, QV
         send(controlData,audioData);
 }
 float SoundProcessor::calcSawOn(QVector<float> rawObject){
-    if (rawObject[5]<=12){
+    if (rawObject[5]>=12){
         return 1;
     }else{
         return 0;
     }
 }
 float SoundProcessor::calcSawNote(QVector<float> rawObject){
-    float note=rawObject[3];
-    int min = 64;
-    int max = 10064;
-    if(note<=min){
-        note=min;
-    }
-    if(note>=max){
-        note= max;
-    }
-    note=note-min;
-    note=note/max;
-    note=((note)*(note)*(3-2*(note)));
-//  note=((note)*(note)*(3-2*(note)));
-//  note=((note)*(note)*(3-2*(note)));
-    note=1-note;
-    note=note*89+1;
-    int rounded = note;
-    return float(rounded);
+        float note=rawObject[3];
+        int min = 64;
+        int max = 40064;
+        if(note<=min){
+            note=min;
+        }
+        if(note>=max){
+            note= max;
+        }
+        note=note-min;
+        note=note/max;
+        note=1-(1-note)*(1-note);
+        note=1-note;
+        note=note*89+1;
+        int rounded = note;
+        return float(rounded);
 }
 float SoundProcessor::calcSawVolume(QVector<float> rawObject){
     float vol;
     int min = 0;
     int max = 480;
     vol=rawObject[2];
-    vol=vol-min;
+    vol=vol-max; // Reverse Volume (upside down)
     vol=vol/max;
     vol=((vol)*(vol)*(3-2*(vol)));
     vol=vol*5;
     return vol;
 }
 float SoundProcessor::calcSawModul(QVector<float> rawObject){
-    return 1;
+    return 0;
 }
 float SoundProcessor::calcSawHarmon(QVector<float> rawObject){
-    return 1;
+    return 0;
 }
 float SoundProcessor::calcSinOn(QVector<float> rawObject){
-    if (rawObject[5]>=10){
-        return 0;
-    }else{
-        return 1;
-    }
+        // Number of corners
+        if (rawObject[5]<=6){
+            return 1;
+        }else{
+            return 0;
+        }
 }
 float SoundProcessor::calcSinNote(QVector<float> rawObject){
     float note=rawObject[3];
     int min = 64;
-    int max = 10064;
+    int max = 40064;
     if(note<=min){
         note=min;
     }
@@ -140,9 +139,7 @@ float SoundProcessor::calcSinNote(QVector<float> rawObject){
     }
     note=note-min;
     note=note/max;
-    note=((note)*(note)*(3-2*(note)));
-//  note=((note)*(note)*(3-2*(note)));
-//  note=((note)*(note)*(3-2*(note)));
+    note=1-(1-note)*(1-note);
     note=1-note;
     note=note*89+1;
     int rounded = note;
@@ -153,17 +150,17 @@ float SoundProcessor::calcSinVolume(QVector<float> rawObject){
     int min = 0;
     int max = 480;
     vol=rawObject[2];
-    vol=vol-min;
+    vol=vol-max; // Reverse Volume (upside down)
     vol=vol/max;
     vol=((vol)*(vol)*(3-2*(vol)));
     vol=vol*5;
     return vol;
 }
 float SoundProcessor::calcSinModul(QVector<float> rawObject){
-    return 1;
+    return 0;
 }
 float SoundProcessor::calcSinHarmon(QVector<float> rawObject){
-    return 1;
+    return 0;
 }
 float SoundProcessor::calcSquareOn(QVector<float> rawObject){
     if ((rawObject[5]>=8)&&(rawObject[5]<=15)){
@@ -175,7 +172,7 @@ float SoundProcessor::calcSquareOn(QVector<float> rawObject){
 float SoundProcessor::calcSquareNote(QVector<float> rawObject){
     float note=rawObject[3];
     int min = 64;
-    int max = 10064;
+    int max = 45064;
     if(note<=min){
         note=min;
     }
@@ -184,9 +181,10 @@ float SoundProcessor::calcSquareNote(QVector<float> rawObject){
     }
     note=note-min;
     note=note/max;
-    note=((note)*(note)*(3-2*(note)));
-//  note=((note)*(note)*(3-2*(note)));
-//  note=((note)*(note)*(3-2*(note)));
+    //  note=((note)*(note)*(3-2*(note)));
+    //  note=((note)*(note)*(3-2*(note)));
+    //  note=((note)*(note)*(3-2*(note)));
+    note=1-(1-note)*(1-note);
     note=1-note;
     note=note*89+1;
     int rounded = note;
@@ -197,17 +195,17 @@ float SoundProcessor::calcSquareVolume(QVector<float> rawObject){
     int min = 0;
     int max = 480;
     vol=rawObject[2];
-    vol=vol-min;
+    vol=vol-max; // Reverse Volume (upside down)
     vol=vol/max;
     vol=((vol)*(vol)*(3-2*(vol)));
     vol=vol*5;
     return vol;
 }
 float SoundProcessor::calcSquareModul(QVector<float> rawObject){
-    return 1;
+    return 0;
 }
 float SoundProcessor::calcSquareHarmon(QVector<float> rawObject){
-    return 1;
+    return 0;
 }
 void SoundProcessor::send(QVector<float> controlData, QVector< QVector<float> > audioData){
     if (controlDataBuffer[0]!=controlData[0]){

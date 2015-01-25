@@ -5,7 +5,7 @@
 
 AbstractProjectInfo* ProjectAFactory::createProjectInfo()
 {
-    return new AbstractProjectInfo("Project A");
+    return new AbstractProjectInfo("Klangerzeugung");
 }
 AbstractProjectWidget* ProjectAFactory::createProjectWidget()
 {

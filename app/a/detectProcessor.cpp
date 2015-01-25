@@ -4,7 +4,6 @@
 using namespace cv;
 
 DetectProcessor::DetectProcessor()
-
 {
 
 }
@@ -19,31 +18,37 @@ QVector< QVector<float> > DetectProcessor::analyse(const Mat &input){
     vector<vector<Point> >contours;
     findContours(mask, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
     int anzahlGefundenerObjekte = contours.size();
-    if (anzahlGefundenerObjekte>=14){
+    if (anzahlGefundenerObjekte>=14)
+    {
         anzahlGefundenerObjekte=14;
     }
-    for(int i = 0; i < anzahlGefundenerObjekte; i++){
+    for(int i = 0; i < anzahlGefundenerObjekte; i++)
+    {
         Mat maskSingleRegion(mask.rows,mask.cols,CV_8UC1,Scalar(0, 0, 0));
         drawContours(maskSingleRegion, contours, i, Scalar(255, 255, 255), CV_FILLED);
         datas[i]=RegionAnalyse(maskSingleRegion);
 
     }
     datas=sortRawData(datas);
-    for(int n = 0; n < datas.size(); n++){
+    for(int n = 0; n < datas.size(); n++)
+    {
+        if (datas[n].isEmpty()==false)
+        {
+            for(int m = 0; m < datas[n].size(); m++)
+            {
 
-        if (datas[n].isEmpty()==false){
-        for(int m = 0; m < datas[n].size(); m++){
-            //qDebug() << "ArrayInhalt: " << m << " " <<datas[n][m];
-        }
+            }
         }
     }
     return datas;
-  }
+}
 
 QVector< QVector<float> > DetectProcessor::sortRawData(QVector< QVector<float> > rawData){
+
     QVector< QVector<float> > copyOfRawData = rawData;
     QVector< QVector<float> > sortedRawData;
     if (rawData.isEmpty()==false){
+
         for(int i = 0; i < rawData.size(); i++){
             int maxX = 0;
             int maxXIndex = 0;

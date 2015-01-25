@@ -5,26 +5,25 @@
 ProjectAWidget::ProjectAWidget(QWidget *parent, AbstractProjectInfo *projectInfo) :
     AbstractProjectWidget(parent, projectInfo),
     ui(new Ui::ProjectAWidget)
-  ,videoThread(new VideoEngine)
-  ,controlProcessor(new ControlProcessor())
+   ,videoThread(new VideoEngine)
+   ,controlProcessor(new ControlProcessor)
 {
     ui->setupUi(this);
     videoThread->setProcessor(controlProcessor);
     connect(videoThread, SIGNAL(sendInputImage(const QImage&)), ui->inputFrame, SLOT(setImage(const QImage&)));
-    //connect(controlProcessor, SIGNAL(sendPreProcessedImage(const QImage&)), ui->preProcessedFrame, SLOT(setImage(const QImage&)));
     connect(videoThread, SIGNAL(sendProcessedImage(const QImage&)), ui->outputFrame, SLOT(setImage(const QImage&)));
     updateParameters();
 }
 
 ProjectAWidget::~ProjectAWidget()
 {
-   delete videoThread;
     delete controlProcessor;
+    videoThread->stop();
+    delete videoThread;
     delete ui;
 }
 
 bool ProjectAWidget::handleOpenCamera(int device){
-
     videoThread->openCamera(device);
     return true;
 }
@@ -34,7 +33,7 @@ void ProjectAWidget::handleOpenFile(QString file){
 }
 
 void ProjectAWidget::updateParameters(){
-    qDebug() << "update ";
+    //UI Interaction
     controlProcessor->setMasterVol(float(ui->masterVolSlider->value()/100.0));
     controlProcessor->filterProcessor->setAlpha(double(ui->aphaPreprocess->value()/10.0));
     controlProcessor->filterProcessor->setBeta(ui->betaPreprocess->value());
@@ -67,6 +66,9 @@ void ProjectAWidget::updateParameters(){
         controlProcessor->filterProcessor->setUseBufferMode(false);
         ui->bufferSize->setEnabled(false);
     }
+    if(ui->muteCB->isChecked()==true){
+        ui->masterVolSlider->setValue(0);
+    }
     controlProcessor->filterProcessor->setBufferSize(ui->bufferSize->value());
     if(ui->sequenzerCB->isChecked()==true){
         controlProcessor->setMode(1);
@@ -83,6 +85,7 @@ void ProjectAWidget::updateParameters(){
     }else{
         controlProcessor->setMute(0);
     }
+
 }
 
 
@@ -92,16 +95,3 @@ void ProjectAWidget::on_pushButton_clicked()
     videoThread->start();
 }
 
-
-
-void ProjectAWidget::on_pushButton_2_clicked()
-{
-    videoThread->stop();
-    videoThread=new VideoEngine;
-    controlProcessor=new ControlProcessor();
-    videoThread->setProcessor(controlProcessor);
-    videoThread->openCamera(0);
-
-    videoThread->start();
-    //controlProcessor->filterProcessor->reinitializeBG(controlProcessor->unprocessedFrame);
-}

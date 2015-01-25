@@ -1,4 +1,5 @@
 #include "controlProcessor.h"
+#include "projectawidget.h"
 #include <QDebug>
 #include <QImage>
 #include "../libs/videoengine/cvmattoqimage.h"
@@ -26,19 +27,25 @@ ControlProcessor::~ControlProcessor()
     delete soundProcessor;
 }
 Mat ControlProcessor::process(const Mat &input){
+    //Count Frames for Buffer
     frameCount=frameCount+1;
     unprocessedFrameHuge = input;
+    //resize for better performance
     resize(unprocessedFrameHuge,unprocessedFrameSmall,Size(640, 480), 0, 0, CV_INTER_AREA);
+    //perform preprocessing to highlight objects
     PreProcessedFrame=filterProcessor->preProcess(unprocessedFrameSmall);
-    //emit sendPreProcessedImage(cvMatToQImage(PreProcessedFrame));
+    //create binaryimage of objects for further processing
     processedFrame=filterProcessor->process(PreProcessedFrame);
+    //set buffer for detecting and sending osc signals
     if (frameCount%2==0){
         rawData = detectProcessor->analyse(processedFrame);
         soundProcessor->process(float(mode),float(masterVol),float(beat) ,rawData);
     }
+    //set framecount back to 0 after 2 seconds
     if(frameCount==60){
         frameCount=0;
     }
+    //return the binaryimage
     return processedFrame;
 
 }
