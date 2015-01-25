@@ -11,7 +11,7 @@
 #X floatatom 266 254 5 0 0 0 - - -;
 #X floatatom 265 382 5 0 0 0 - - -;
 #X obj 132 383 hsl 128 15 0 127 0 0 empty empty Sin -2 -8 0 10 -262144
--1 -1 0 1;
+-1 -1 4300 1;
 #X obj 133 255 hsl 128 15 0 127 0 0 empty empty Square -2 -8 0 10 -262144
 -1 -1 0 1;
 #X obj 132 117 hsl 128 15 0 127 0 0 empty empty Sawtooth -2 -8 0 10
@@ -70,7 +70,7 @@
 #X obj 514 396 routeOSC /sinModul;
 #X obj 525 419 routeOSC /sinHarmon;
 #X obj 132 507 hsl 128 15 0 127 0 0 empty empty Simple_FM -2 -8 0 10
--262144 -1 -1 0 1;
+-262144 -1 -1 2900 1;
 #X obj 110 507 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X floatatom 265 507 5 0 0 0 - - -;
@@ -79,17 +79,17 @@
 #X obj 466 545 routeOSC /simpleFMVolume;
 #X obj 484 565 routeOSC /simpleFMModul;
 #X obj 138 531 knob 32 32 1 5 0 0 empty empty Volume -5 45 0 11 -4034
--1 -1 0 1;
-#X obj 207 531 knob 32 32 0.1 10 0 0 empty empty Modulation -20 45
+-1 -1 300 1;
+#X obj 207 531 knob 32 32 0.1 1000 0 0 empty empty Modulation -20 45
 0 11 -4034 -1 -1 0 1;
-#X obj 3 564 my-simple-fm~;
 #X msg 19 585 \$1 50;
 #X obj 19 606 line~;
 #X obj 4 627 *~;
 #X floatatom 208 583 5 0 0 0 - - -;
 #X floatatom 139 581 5 0 0 0 - - -;
 #X obj -29 182 my-sawtooth~;
-#X connect 0 0 70 0;
+#X obj 3 564 my-simple-fm~;
+#X connect 0 0 69 0;
 #X connect 1 0 11 0;
 #X connect 2 0 17 0;
 #X connect 3 0 40 0;
@@ -116,7 +116,7 @@
 #X connect 9 0 6 0;
 #X connect 9 0 11 1;
 #X connect 10 0 5 0;
-#X connect 10 0 70 1;
+#X connect 10 0 69 1;
 #X connect 11 0 24 0;
 #X connect 12 0 13 0;
 #X connect 12 0 16 0;
@@ -125,9 +125,9 @@
 #X connect 15 0 4 0;
 #X connect 17 0 36 0;
 #X connect 18 0 19 0;
-#X connect 18 0 70 2;
+#X connect 18 0 69 2;
 #X connect 20 0 21 0;
-#X connect 20 0 70 3;
+#X connect 20 0 69 3;
 #X connect 22 0 23 0;
 #X connect 23 0 24 1;
 #X connect 24 0 4 0;
@@ -162,19 +162,19 @@
 #X connect 53 0 38 0;
 #X connect 54 0 33 0;
 #X connect 55 0 57 0;
-#X connect 55 0 64 0;
-#X connect 56 0 64 1;
+#X connect 55 0 70 0;
+#X connect 56 0 70 1;
 #X connect 58 0 56 0;
 #X connect 59 0 55 0;
 #X connect 60 0 62 0;
 #X connect 61 0 63 0;
-#X connect 62 0 65 0;
-#X connect 62 0 69 0;
-#X connect 63 0 64 2;
-#X connect 63 0 68 0;
-#X connect 64 0 67 0;
-#X connect 65 0 66 0;
-#X connect 66 0 67 1;
-#X connect 67 0 4 0;
-#X connect 70 0 15 0;
+#X connect 62 0 64 0;
+#X connect 62 0 68 0;
+#X connect 63 0 67 0;
+#X connect 63 0 70 2;
+#X connect 64 0 65 0;
+#X connect 65 0 66 1;
+#X connect 66 0 4 0;
+#X connect 69 0 15 0;
+#X connect 70 0 66 0;
 #X coords 0 -1 1 1 200 500 2 100 100;
