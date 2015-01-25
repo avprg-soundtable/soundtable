@@ -1,0 +1,40 @@
+Grundton in midinotes 	- 0 - 127
+Harmonix in ms 			- 0 2000 
+3 Oszilatortypen		- sägezahn, square, sin 
+
+
+/objectX				(object1)
+	/sawOn				0/1		
+	/sawNote			0-127		midi
+	/sawVolume			1-5
+	/sawModul			0.01-10		Hz
+	/sawHarmon 			1-2000		ms
+
+	/sinOn 				0/1
+	/sinNote			0-127		midi
+	/sinVolume			1-5
+	/sinModul			0.01-10	Hz
+	/sinHarmon			1-2000		ms
+
+	/squareOn   		0/1
+	/squareNote			0-127		midi
+	/squareVolume		1-5	
+	/squareModul		1-10  	Hz.
+	/squareHarmon		1-2000		ms
+	
+	/simpleFMOn			0/1
+	/simpleFMNote		0-127
+	/simpleFMVolume		1-5
+	/simpleFMModul		1-2000
+
+
+/masterVol 			0.0-2.0
+/create				0/1 (wichtig: create und sequenz nicht gleichzeit 1)
+/sequenz			0/1
+
+
+Sequenzer
+/objCount			1-15   
+/seqSpeed			initial 350ms 
+/startSeq
+/stopSeq

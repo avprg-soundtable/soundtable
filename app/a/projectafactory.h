@@ -10,7 +10,7 @@ class ProjectAFactory : public AbstractProjectFactory
 
 public:
     ProjectAFactory() {}
-    ~ProjectAFactory() {}
+
 
     AbstractProjectInfo* createProjectInfo();
     AbstractProjectWidget* createProjectWidget();

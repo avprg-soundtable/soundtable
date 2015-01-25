@@ -10,27 +10,82 @@ using namespace cv;
 FilterProcessor::FilterProcessor()
     : useMedian(true)
     , useOpening(true)
-    , useNoiseRecutiob(true)
+    , useNoiseRecution(true)
     , useEqualization(false)
     , bufferMode(true)
     , frameCount(0)
+    , alpha(1)
+    , beta(0)
+    , fTau(0.65)
+    , bufferSize(2)
 {
-    pMOG2 = new cv::BackgroundSubtractorMOG2(500,14,true);
+    //create object for background subtraction
+    pMOG2 = new cv::BackgroundSubtractorMOG2(500,20,true);
+    // threshold for shadowdetection
     pMOG2->setDouble("fTau",0.65);
+    pMOG2->setDouble("varThresholdGen",16);
+
+}
+FilterProcessor::~FilterProcessor(){
+
 }
 
-Mat FilterProcessor::process(const Mat &input){
-    Mat binaryMask;
+// alpha for preprocessing
+void FilterProcessor::setAlpha(double pAlpha){
+    alpha=pAlpha;
+}
+// beta for preprocessing
+void FilterProcessor::setBeta(int pBeta){
+    beta=pBeta;
+}
+//
+void FilterProcessor::setBufferSize(int pBufferSize){
+    bufferSize=pBufferSize;
+}
+
+// Histogram Equalization
+void FilterProcessor::setUseEqualization(bool enable){
+    useEqualization=enable;
+}
+
+// Sigma = threshold for background subtraction
+void FilterProcessor::setSigmaBackground(int pSigma){
+
+    sigmaBackground=pSigma;
+    pMOG2->setDouble("varThresholdGen",sigmaBackground);
+
+}
+
+// fTau = threshold for shadow detection
+void FilterProcessor::setfTau(double pfTau){
+
+    fTau=pfTau;
+    pMOG2->setDouble("fTau",fTau);
+
+}
+
+Mat FilterProcessor::preProcess(const Mat &input){
+
     Mat frame;
-    //Preprocessing
-    input.convertTo(frame, -1, 0.8, 0);
+
+    input.convertTo(frame, -1, alpha, beta);
     if (useEqualization){
         frame=equalization(frame);
     }
+    return frame;
+
+}
+
+Mat FilterProcessor::process(const Mat &input){
+
+    Mat binaryMask;
+    Mat frame;
+    input.copyTo(frame);
     if(bufferMode){
         if (frameCount==0){
-
+            // perform filter
             binaryMask = filter(frame);
+
             if (useMedian){
                 medianBlur(binaryMask, binaryMask, 5);
             }
@@ -38,14 +93,15 @@ Mat FilterProcessor::process(const Mat &input){
                 erode(binaryMask, binaryMask, Mat());
                 dilate(binaryMask, binaryMask, Mat());
             }
-            if(useNoiseRecutiob){
+
+            if(useNoiseRecution){
                binaryMask=noiseRecution(binaryMask);
             }
-
+            // set Buffer Frame for next process
             bufferFrame=binaryMask;
             return binaryMask;
         }else{
-            if (frameCount==2){
+            if (frameCount==bufferSize){
                 frameCount=0;
              }
             return bufferFrame;
@@ -63,23 +119,25 @@ Mat FilterProcessor::process(const Mat &input){
             dilate(binaryMask, binaryMask, Mat());
         }
 
-        if(useNoiseRecutiob){
+        if(useNoiseRecution){
            binaryMask=noiseRecution(binaryMask);
         }
 
         return binaryMask;
     }
-     frameCount=frameCount+1;
-   }
+    frameCount=frameCount+1;
+
+}
 Mat FilterProcessor::filter(Mat& frame){
 
     Mat fgMaskMOG2;
     Mat frametoProcess;
-    Mat frameGray;
     cvtColor(frame, frametoProcess, CV_BGR2GRAY);
     pMOG2->operator ()(frametoProcess,fgMaskMOG2,0);
+    // BackgroundSubstractor colors shadows in grey -> remove them for B&W output
     fgMaskMOG2 = removeShadows(fgMaskMOG2);
     return fgMaskMOG2;
+
 }
 
 Mat FilterProcessor::removeShadows(Mat& frame){
@@ -88,12 +146,12 @@ Mat FilterProcessor::removeShadows(Mat& frame){
     frame.copyTo(frameToProcess);
     for(int x = 0; x < frameToProcess.cols; x++){
             for(int y = 0; y < frameToProcess.rows; y++){
+               // paint every grey pixel black
                if (frameToProcess.at<uchar>(y,x) <= 127) {
                    frameToProcess.at<uchar>(y,x)=0;
                }
             }
     }
-
     return frameToProcess;
 }
 
@@ -102,7 +160,7 @@ void FilterProcessor::reinitializeBG(Mat& background){
     //not working so far
     Mat ignoreMask;
     Mat frametoProcess;
-    frametoProcess=equalization(background);
+    background.copyTo(frametoProcess);
     pMOG2 = NULL;
     pMOG2 = new cv::BackgroundSubtractorMOG(5000,0,0.1,0);
     pMOG2->operator ()(frametoProcess,ignoreMask,1);
@@ -121,26 +179,31 @@ Mat FilterProcessor::equalization(Mat& frame){
     return frametoProcess;
 }
 
+// becaus camera gain creates noise
 Mat FilterProcessor::noiseRecution(Mat& binaryMask){
     Mat copyOfMask;
     binaryMask.copyTo(copyOfMask);
-
         // find all regions
         vector<vector<Point> >contours;
         findContours(copyOfMask, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
-
-        // erase small regions
-
+        // erase all small regions
         for(int i = 0; i < contours.size(); i++){
             vector<Point>contour = contours[i];
             int area = contourArea(contour);
+            // set size of noise to remove
             if (area <= 64){
                 drawContours(binaryMask, contours, i, Scalar(0, 0, 0, 0), CV_FILLED);
             }
         }
+    return binaryMask;
 
-       return binaryMask;
+}
+void FilterProcessor::setUseBufferMode(bool enable){
+    this->bufferMode=enable;
+}
 
+void FilterProcessor::setUseNoiseReduction(bool enable){
+    this->useNoiseRecution=enable;
 }
 
 void FilterProcessor::setMedianEnable(bool enable){

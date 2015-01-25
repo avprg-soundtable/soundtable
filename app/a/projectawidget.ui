@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>690</width>
-    <height>430</height>
+    <width>715</width>
+    <height>576</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>690</width>
-    <height>430</height>
+    <width>715</width>
+    <height>576</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -22,8 +22,8 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
+     <x>30</x>
+     <y>20</y>
      <width>59</width>
      <height>16</height>
     </rect>
@@ -32,24 +32,11 @@
     <string>Projekt A</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>330</y>
-     <width>115</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Start Capture</string>
-   </property>
-  </widget>
   <widget class="VideoWidget" name="inputFrame">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>40</y>
+     <x>20</x>
+     <y>50</y>
      <width>320</width>
      <height>240</height>
     </rect>
@@ -70,8 +57,8 @@
   <widget class="VideoWidget" name="outputFrame">
    <property name="geometry">
     <rect>
-     <x>350</x>
-     <y>40</y>
+     <x>20</x>
+     <y>310</y>
      <width>320</width>
      <height>240</height>
     </rect>
@@ -89,6 +76,346 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>390</y>
+     <width>321</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Audio Setting</string>
+   </property>
+   <widget class="QSlider" name="masterVolSlider">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>22</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>200</number>
+    </property>
+    <property name="value">
+     <number>200</number>
+    </property>
+    <property name="sliderPosition">
+     <number>200</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="addCB">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>40</y>
+      <width>102</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Modus 1</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="sequenzerCB">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>40</y>
+      <width>102</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Sequenzer</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="muteCB">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>61</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Mute</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="beatSB">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>96</x>
+      <y>80</y>
+      <width>201</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>600</number>
+    </property>
+    <property name="value">
+     <number>350</number>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>110</y>
+      <width>211</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Start Capture</string>
+    </property>
+   </widget>
+   <zorder>masterVolSlider</zorder>
+   <zorder>addCB</zorder>
+   <zorder>sequenzerCB</zorder>
+   <zorder>muteCB</zorder>
+   <zorder>beatSB</zorder>
+   <zorder>outputFrame</zorder>
+   <zorder>pushButton</zorder>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>180</y>
+     <width>321</width>
+     <height>201</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Filter Setting</string>
+   </property>
+   <widget class="QSlider" name="bgfTau">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>60</y>
+      <width>281</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>100</number>
+    </property>
+    <property name="pageStep">
+     <number>10</number>
+    </property>
+    <property name="value">
+     <number>65</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="bgSigma">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>281</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>64</number>
+    </property>
+    <property name="value">
+     <number>20</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="bufferSize">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>160</y>
+      <width>271</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>30</number>
+    </property>
+    <property name="value">
+     <number>2</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="medianCB">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>100</y>
+      <width>101</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>use Median</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="bufferCB">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>130</y>
+      <width>101</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Buffermode</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="openingCB">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>100</y>
+      <width>101</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>use Opening</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="noiseCB">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>130</y>
+      <width>121</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Noise reduction</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_3">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>20</y>
+     <width>321</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Preprocessing</string>
+   </property>
+   <widget class="QSlider" name="aphaPreprocess">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>271</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>30</number>
+    </property>
+    <property name="pageStep">
+     <number>10</number>
+    </property>
+    <property name="value">
+     <number>10</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="betaPreprocess">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>70</y>
+      <width>271</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>50</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="HistCB">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>110</y>
+      <width>211</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Histogram equalization</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="Line" name="line">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>0</y>
+     <width>20</width>
+     <height>581</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <zorder>groupBox_2</zorder>
+  <zorder>label</zorder>
+  <zorder>inputFrame</zorder>
+  <zorder>outputFrame</zorder>
+  <zorder>groupBox</zorder>
+  <zorder>groupBox_3</zorder>
+  <zorder>line</zorder>
  </widget>
  <customwidgets>
   <customwidget>
@@ -98,5 +425,249 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>masterVolSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>401</x>
+     <y>457</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>81</x>
+     <y>13</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>addCB</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>481</x>
+     <y>435</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>117</x>
+     <y>23</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sequenzerCB</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>613</x>
+     <y>440</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>247</x>
+     <y>12</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>beatSB</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>582</x>
+     <y>481</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>339</x>
+     <y>25</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bgSigma</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>426</x>
+     <y>218</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>474</x>
+     <y>9</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bgfTau</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>480</x>
+     <y>255</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>509</x>
+     <y>19</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bufferSize</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>516</x>
+     <y>340</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>659</x>
+     <y>12</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>medianCB</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>431</x>
+     <y>299</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>678</x>
+     <y>48</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>openingCB</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>560</x>
+     <y>299</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>678</x>
+     <y>95</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>bufferCB</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>560</x>
+     <y>329</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>679</x>
+     <y>133</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>noiseCB</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>530</x>
+     <y>329</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>682</x>
+     <y>174</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>aphaPreprocess</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>454</x>
+     <y>63</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>714</x>
+     <y>9</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>betaPreprocess</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>552</x>
+     <y>111</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>714</x>
+     <y>19</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>HistCB</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>469</x>
+     <y>149</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>714</x>
+     <y>71</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>muteCB</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectAWidget</receiver>
+   <slot>updateParameters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>416</x>
+     <y>528</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>370</x>
+     <y>342</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>updateParameters()</slot>
+ </slots>
 </ui>

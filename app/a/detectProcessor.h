@@ -8,13 +8,15 @@ class DetectProcessor
 {
 public:
     DetectProcessor();
-    void analyse(const cv::Mat&source); //Rueckgabe anpassen!
-    void RegionAnalyse(const cv::Mat &input);
-    void centerOfMass(cv::Mat& image);
+     ~DetectProcessor();
+    QVector< QVector<float> > analyse(const cv::Mat&source); //Rueckgabe anpassen!
+    QVector<float> RegionAnalyse(const cv::Mat &input);
+    int countCorners(Mat& image);
 private:
-    
+    QVector< QVector<float> > sortRawData(QVector< QVector<float> > rawData);
+
 private:
-   
+
 
 };
 
