@@ -11,8 +11,8 @@ SoundProcessor::SoundProcessor():
         controlDataBuffer.append(9999); //create first controlldatabuffer that should be overwritten by sending first signals
     }
     for(int n = 0; n < 15; n++){    //create first controlldatabuffer that should be overwritten by sending first signals
-        QVector<float> audioObjectBuffer(15);
-        for(int m = 0; m < 15; m++){
+        QVector<float> audioObjectBuffer(19);
+        for(int m = 0; m < 19; m++){
             audioObjectBuffer.append(9999);
          }
         audioDataBuffer.append(audioObjectBuffer);
@@ -25,7 +25,7 @@ SoundProcessor::~SoundProcessor()
 }
 void SoundProcessor::process(float sequenzer, float masterVol,float seqSpeed, QVector< QVector<float> > rawData){
     QVector<float> rawObject;
-    QVector<float> audioObject(15);
+    QVector<float> audioObject(19);
     controlData.clear();
     audioData.clear();
     controlData.append(masterVol);
@@ -38,7 +38,7 @@ void SoundProcessor::process(float sequenzer, float masterVol,float seqSpeed, QV
     }
     controlData.append(float(rawData.size()));
     controlData.append(seqSpeed);
-    int numberParams = 15;    //number of parameters
+    int numberParams = 19;    //number of parameters
     int numberInsertedAudioObjects =0;
     for(int i = 0; i < rawData.size(); i++){                    //Anzahl gefundener Objekte
         audioObject.clear();
@@ -61,6 +61,10 @@ void SoundProcessor::process(float sequenzer, float masterVol,float seqSpeed, QV
                     audioObject.append(calcSquareVolume(rawObject));
                     audioObject.append(calcSquareModul(rawObject));
                     audioObject.append(calcSquareHarmon(rawObject));
+                    audioObject.append(calcSimpleFmOn(rawObject));
+                    audioObject.append(calcSimpleFmNote(rawObject));
+                    audioObject.append(calcSimpleFmVolume(rawObject));
+                    audioObject.append(calcSimpleFmModul(rawObject));
                  }
              }
         }
@@ -114,7 +118,7 @@ float SoundProcessor::calcSawVolume(QVector<float> rawObject){
     return vol;
 }
 float SoundProcessor::calcSawModul(QVector<float> rawObject){
-    return 0;
+    return rawObject[4]/rawObject[3]*12;
 }
 float SoundProcessor::calcSawHarmon(QVector<float> rawObject){
     return 0;
@@ -157,7 +161,7 @@ float SoundProcessor::calcSinVolume(QVector<float> rawObject){
     return vol;
 }
 float SoundProcessor::calcSinModul(QVector<float> rawObject){
-    return 0;
+    return rawObject[4]/rawObject[3]*12;
 }
 float SoundProcessor::calcSinHarmon(QVector<float> rawObject){
     return 0;
@@ -202,20 +206,69 @@ float SoundProcessor::calcSquareVolume(QVector<float> rawObject){
     return vol;
 }
 float SoundProcessor::calcSquareModul(QVector<float> rawObject){
-    return 0;
+    return rawObject[4]/rawObject[3]*12;
 }
 float SoundProcessor::calcSquareHarmon(QVector<float> rawObject){
     return 0;
 }
+float SoundProcessor::calcSimpleFmOn(QVector<float> rawObject){
+    // Number of corners
+    if (rawObject[5]<=8){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+float SoundProcessor::calcSimpleFmNote(QVector<float> rawObject){
+    float note=rawObject[3];
+    int min = 64;
+    int max = 45064;
+    if(note<=min){
+        note=min;
+    }
+    if(note>=max){
+        note= max;
+    }
+    note=note-min;
+    note=note/max;
+    //  note=((note)*(note)*(3-2*(note)));
+    //  note=((note)*(note)*(3-2*(note)));
+    //  note=((note)*(note)*(3-2*(note)));
+    note=1-(1-note)*(1-note);
+    note=1-note;
+    note=note*89+1;
+    int rounded = note;
+    return float(rounded);
+}
+
+float SoundProcessor::calcSimpleFmVolume(QVector<float> rawObject){
+    float vol;
+    int min = 0;
+    int max = 480;
+    vol=rawObject[2];
+    vol=vol-max; // Reverse Volume (upside down)
+    vol=vol/max;
+    vol=((vol)*(vol)*(3-2*(vol)));
+    vol=vol*5;
+    return vol;
+}
+float SoundProcessor::calcSimpleFmModul(QVector<float> rawObject){
+   return rawObject[4]/rawObject[3]*12;
+}
+
 void SoundProcessor::send(QVector<float> controlData, QVector< QVector<float> > audioData){
     if (controlDataBuffer[0]!=controlData[0]){
      pureDataOSCController->sendOSC("/masterVol",controlData[0]);
     }
     if (controlDataBuffer[1]!=controlData[1]){
      pureDataOSCController->sendOSC("/create",controlData[1]);
+     pureDataOSCController->sendOSC("/stopSeq",controlData[1]); //stop sequenezr counting
     }
     if (controlDataBuffer[2]!=controlData[2]){
      pureDataOSCController->sendOSC("/sequenz",controlData[2]);
+     pureDataOSCController->sendOSC("/startSeq",controlData[2]); //start sequenezr counting
+
     }
     if (controlDataBuffer[3]!=controlData[3]){
      pureDataOSCController->sendOSC("/objCount",controlData[3]);
@@ -274,7 +327,20 @@ void SoundProcessor::send(QVector<float> controlData, QVector< QVector<float> > 
          }
              if (audioObject[14]!=audioObjectBuffer[14]){
              pureDataOSCController->sendOSC(route+"/squareHarmon",audioObject[14]);
-            }
+         }
+             if (audioObject[15]!=audioObjectBuffer[15]){
+             pureDataOSCController->sendOSC(route+"/simpleFMOn",audioObject[15]);
+         }
+             if (audioObject[16]!=audioObjectBuffer[16]){
+             pureDataOSCController->sendOSC(route+"/simpleFMNote",audioObject[16]);
+         }
+             if (audioObject[17]!=audioObjectBuffer[17]){
+             pureDataOSCController->sendOSC(route+"/simpleFMVolume",audioObject[17]);
+         }
+             if (audioObject[18]!=audioObjectBuffer[18]){
+             pureDataOSCController->sendOSC(route+"/simpleFMModul",audioObject[18]);
+         }
+
          }
      controlDataBuffer=controlData;
      audioDataBuffer=audioData;

@@ -32,6 +32,10 @@ private:
     float calcSquareVolume(QVector<float> rawObject);
     float calcSquareModul(QVector<float> rawObject);
     float calcSquareHarmon(QVector<float> rawObject);
+    float calcSimpleFmOn(QVector<float> rawObject);
+    float calcSimpleFmNote(QVector<float> rawObject);
+    float calcSimpleFmVolume(QVector<float> rawObject);
+    float calcSimpleFmModul(QVector<float> rawObject);
 private:
 
    
